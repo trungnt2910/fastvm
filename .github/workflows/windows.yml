@@ -122,6 +122,7 @@ jobs:
         $sshDir = Join-Path $env:USERPROFILE ".ssh"
         $keyPath = Join-Path $sshDir "id_ed25519"
         $key = "${{ secrets.SSH_KEY }}" -replace "`r", ""
+        if (-not $key.EndsWith("`n")) { $key += "`n" }
         New-Item -Path $sshDir -ItemType Directory -Force | Out-Null
         [System.IO.File]::WriteAllText($keyPath, $key, [System.Text.UTF8Encoding]::new($false))
         icacls $keyPath /inheritance:r /grant:r "$env:USERNAME:R"
