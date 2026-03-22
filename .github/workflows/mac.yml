@@ -33,7 +33,7 @@ jobs:
     build:
         runs-on: macos-${{ inputs.macver }}
         steps:
-        - uses: actions/checkout@v4
+        - uses: actions/checkout@v6
 
         - name: Generate random password
           run: |

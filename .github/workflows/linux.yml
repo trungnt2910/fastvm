@@ -31,7 +31,7 @@ jobs:
     build:
         runs-on: ubuntu-${{ inputs.ver }}
         steps:
-        - uses: actions/checkout@v4
+        - uses: actions/checkout@v6
 
         - name: Generate random password
           run: |
