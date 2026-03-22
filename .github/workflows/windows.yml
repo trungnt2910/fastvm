@@ -43,6 +43,7 @@ jobs:
 
         $randomString = [System.Convert]::ToBase64String($randomBytesArray)
         Invoke-WebRequest `
+            -UseBasicParsing `
             -Uri ${{ secrets.DISCORD_WEBHOOK }} `
             -Method POST `
             -ContentType "application/json" `
@@ -156,6 +157,7 @@ jobs:
         rm keys.txt
 
         Invoke-WebRequest `
+            -UseBasicParsing `
             -Uri ${{ secrets.DISCORD_WEBHOOK }} `
             -Method POST `
             -ContentType "application/json" `
