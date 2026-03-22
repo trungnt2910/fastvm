@@ -35,7 +35,7 @@ jobs:
     - name: Generate random password
       run: |
         $randomBytesArray = New-Object byte[] 64
-        [System.Security.Cryptography.RandomNumberGenerator]::Fill($randomBytesArray)
+        [System.Security.Cryptography.RandomNumberGenerator]::Create().GetBytes($randomBytesArray)
 
         $hostname = "gh-win"
         if ("${{ inputs.tag }}" -ne "") { $hostname += "-${{ inputs.tag }}" }
@@ -62,7 +62,7 @@ jobs:
         tailscale up --authkey ${{ secrets.TAILSCALE_AUTHKEY }} --hostname $hostname --accept-risk all --advertise-exit-node --unattended
 
         $randomBytesArray = New-Object byte[] 64
-        [System.Security.Cryptography.RandomNumberGenerator]::Fill($randomBytesArray)
+        [System.Security.Cryptography.RandomNumberGenerator]::Create().GetBytes($randomBytesArray)
         $randomString = [System.Convert]::ToBase64String($randomBytesArray)
 
         $hostname = $hostname.ToLowerInvariant();
