@@ -38,8 +38,7 @@ jobs:
         - name: Generate random password
           run: |
             $randomBytesArray = New-Object byte[] 64
-            $rngObject = New-Object System.Security.Cryptography.RNGCryptoServiceProvider
-            $rngObject.GetBytes($randomBytesArray)
+            [System.Security.Cryptography.RandomNumberGenerator]::Fill($randomBytesArray)
 
             $hostname = "gh-mac"
             if ("${{ inputs.tag }}" -ne "") { $hostname += "-${{ inputs.tag }}" }
