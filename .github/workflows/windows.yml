@@ -117,6 +117,16 @@ jobs:
         icacls "%ProgramData%\ssh\administrators_authorized_keys" /inheritance:r /grant "Administrators:F" /grant "SYSTEM:F"
       shell: cmd
 
+    - name: Write SSH private key
+      run: |
+        $sshDir = Join-Path $env:USERPROFILE ".ssh"
+        $keyPath = Join-Path $sshDir "id_rsa"
+        $key = "${{ secrets.SSH_KEY }}" -replace "`r", ""
+        New-Item -Path $sshDir -ItemType Directory -Force | Out-Null
+        [System.IO.File]::WriteAllText($keyPath, $key, [System.Text.UTF8Encoding]::new($false))
+        icacls $keyPath /inheritance:r /grant:r "$env:USERNAME:R"
+      shell: pwsh
+
     - name: Install scripts
       run: |
         $commonDesktop = [Environment]::GetFolderPath("CommonDesktopDirectory")
