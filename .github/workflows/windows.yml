@@ -74,7 +74,10 @@ jobs:
         certutil -p "$randomString" -ImportPFX cert.pfx
 
         $thumbprint = [System.Security.Cryptography.X509Certificates.X509Certificate2]::new([System.IO.File]::ReadAllBytes("cert.crt")).Thumbprint
-        wmic /namespace:\\root\CIMV2\TerminalServices PATH Win32_TSGeneralSetting Set SSLCertificateSHA1Hash="$thumbprint"
+        Get-CimInstance `
+            -Namespace "root\CIMV2\TerminalServices" `
+            -ClassName "Win32_TSGeneralSetting" `
+            | Set-CimInstance -Property @{SSLCertificateSHA1Hash = "$thumbprint"}
 
         rm cert.crt
         rm cert.key
