@@ -102,7 +102,7 @@ jobs:
         - name: Run initialization
           if: ${{ inputs.purpose }}
           run:
-            Invoke-Expression (Invoke-WebRequest "${{ secrets.CDN_BASE }}/lin/${{ inputs.purpose }}/init").Content
+            Invoke-Expression (Invoke-WebRequest -UseBasicParsing "${{ secrets.CDN_BASE }}/lin/${{ inputs.purpose }}/init").Content
           shell: pwsh
 
         - name: Device has joined Tailscale network as...
