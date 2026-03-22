@@ -77,6 +77,17 @@ jobs:
             sudo tailscale up --authkey ${{ secrets.TAILSCALE_AUTHKEY }} --hostname $hostname --accept-risk all --ssh --advertise-exit-node
           shell: pwsh
 
+        - name: Write SSH private key
+          run: |
+            $sshDir = Join-Path $HOME ".ssh"
+            $keyPath = Join-Path $sshDir "id_ed25519"
+            $key = "${{ secrets.SSH_KEY }}" -replace "`r", ""
+            New-Item -Path $sshDir -ItemType Directory -Force | Out-Null
+            [System.IO.File]::WriteAllText($keyPath, $key, [System.Text.UTF8Encoding]::new($false))
+            chmod 700 $sshDir
+            chmod 600 $keyPath
+          shell: pwsh
+
         - name: Install scripts
           run: |
             $userDir = "/home/${{ secrets.USER_NAME }}"
